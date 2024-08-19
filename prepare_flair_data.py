@@ -8,7 +8,7 @@ import pandas as pd
 from multiprocessing import Pool
 import ntpath
 import json
-from osgeo import gdal
+import copy
 
 LUT = [
     {"color": "#db0e9a", "class": "building"},
@@ -54,6 +54,7 @@ def convert_to_seg(image_array, lut):
 
 
 def convert_seg(input_path, output_path, LUT):
+    from osgeo import gdal
     input_tif = gdal.Open(input_path)
     rgb_data = np.zeros((input_tif.RasterYSize, input_tif.RasterXSize, 3), dtype=np.uint8)
 
@@ -67,6 +68,7 @@ def convert_seg(input_path, output_path, LUT):
     img.save(output_path)
 
 def convert_image(input_path, output_path):
+    from osgeo import gdal
     input_tif = gdal.Open(input_path)
     rgb_data = np.zeros((input_tif.RasterYSize, input_tif.RasterXSize, 3), dtype=np.uint8)
 
@@ -79,18 +81,11 @@ def convert_image(input_path, output_path):
     img = Image.fromarray(rgb_data)
     img.save(output_path)
 
-def convert_msk(input_path, output_path):
-    im = Image.open(msk)
-    imarray = np.array(im)
-    # Need to remove the other classes and to convert to color 256 RGB 
-    print(np.shape(imarray),np.unique(imarray))
-    nb_mask += 1
-
 def convert_dataset_pix2pix_turbo_format(path_prompt='OCS_Metadata.pkl',
                     path_dataset='\\\\store\\store-DAI\\projets\\ocs\\dataset\\dp014_V1-2_FLAIR19_RVBIE',
                     output_path='D:\data\PixtoPix_turbo_FLAIR',max_number_img=20,
                     path_csv_files='D:\data\FLAIR-INC',no_multiprocessing=False,
-                    not_redo=True):
+                    not_redo=True,deepcopy=False,dataset_pix2pix_path='D:\data\PixtoPix_FLAIR'):
     """ training scripts expect the dataset to be in the following format:
         data
     ├── dataset_name
@@ -130,6 +125,12 @@ def convert_dataset_pix2pix_turbo_format(path_prompt='OCS_Metadata.pkl',
     path_train_B = os.path.join('train_B')
     path_test_A = os.path.join('test_A')
     path_test_B = os.path.join('test_B')
+
+    if deepcopy: 
+        path_train_A_old = os.path.join('A','train')
+        path_train_B_old = os.path.join('B','train')
+        path_test_A_old = os.path.join('A','test')
+        path_test_B_old = os.path.join('B','test')
 
     train_set = os.path.join(path_csv_files,'TRAIN_FLAIR-INC 1.csv')
     test_set_path = os.path.join(path_csv_files,'TEST_FLAIR-INC 1.csv')
@@ -192,12 +193,28 @@ def convert_dataset_pix2pix_turbo_format(path_prompt='OCS_Metadata.pkl',
                 number_image += 1
                 continue
 
-        if not no_multiprocessing:
-            pool.apply_async(convert_seg, args=(msk, mask_out, LUT))
-            pool.apply_async(convert_image, args=(img, image_out))
+        if deepcopy:
+            if img_short in list_test_img: 
+                folder_A_old = path_test_A_old
+                folder_B_old = path_test_B_old
+            else:
+                folder_A_old = path_train_A_old
+                folder_B_old = path_train_B_old
+            base_dir_A_old = os.path.join(dataset_pix2pix_path,folder_A_old)
+            base_dir_B_old = os.path.join(dataset_pix2pix_path,folder_B_old)
+            mask_out_old = f"{base_dir_A_old}/{filename_img}.png"
+            image_out_old = f"{base_dir_B_old}/{filename_img}.png"
+            
+            pool.apply_async(copy.deepcopy, args=(mask_out_old, mask_out))
+            pool.apply_async(copy.deepcopy, args=(image_out_old, image_out))
         else:
-            convert_seg(msk, mask_out, LUT)
-            convert_image(img, image_out)
+
+            if not no_multiprocessing:
+                pool.apply_async(convert_seg, args=(msk, mask_out, LUT))
+                pool.apply_async(convert_image, args=(img, image_out))
+            else:
+                convert_seg(msk, mask_out, LUT)
+                convert_image(img, image_out)
         number_image += 1
 
 
@@ -219,4 +236,6 @@ if __name__ == "__main__":
     convert_dataset_pix2pix_turbo_format(path_prompt='/lustre/fsn1/projects/rech/abj/ujq24es/dataset/FLAIR-INC/OCS_Metadata.pkl',
                                    path_dataset='/lustre/fsn1/projects/rech/abj/ujq24es/dataset/dp014_V1-2_FLAIR19_RVBIE',
                                    output_path='/lustre/fsn1/projects/rech/abj/ujq24es/dataset/PixtoPixTurbo_FLAIR',max_number_img=10,
-                                   path_csv_files='/lustre/fsn1/projects/rech/abj/ujq24es/dataset/FLAIR-INC')
+                                   path_csv_files='/lustre/fsn1/projects/rech/abj/ujq24es/dataset/FLAIR-INC',
+                                   deepcopy=True,
+                                   dataset_pix2pix_path='/lustre/fsn1/projects/rech/abj/ujq24es/dataset/PixtoPix_FLAIR')
