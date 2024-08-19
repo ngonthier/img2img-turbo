@@ -235,7 +235,7 @@ def convert_dataset_pix2pix_turbo_format(path_prompt='OCS_Metadata.pkl',
 if __name__ == "__main__":
     convert_dataset_pix2pix_turbo_format(path_prompt='/lustre/fsn1/projects/rech/abj/ujq24es/dataset/FLAIR-INC/OCS_Metadata.pkl',
                                    path_dataset='/lustre/fsn1/projects/rech/abj/ujq24es/dataset/dp014_V1-2_FLAIR19_RVBIE',
-                                   output_path='/lustre/fsn1/projects/rech/abj/ujq24es/dataset/PixtoPixTurbo_FLAIR',max_number_img=10,
+                                   output_path='/lustre/fsn1/projects/rech/abj/ujq24es/dataset/PixtoPixTurbo_FLAIR',max_number_img=2000000,
                                    path_csv_files='/lustre/fsn1/projects/rech/abj/ujq24es/dataset/FLAIR-INC',
                                    deepcopy=True,
                                    dataset_pix2pix_path='/lustre/fsn1/projects/rech/abj/ujq24es/dataset/PixtoPix_FLAIR')
