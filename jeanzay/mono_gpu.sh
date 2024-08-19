@@ -1,5 +1,5 @@
 #!/bin/bash
-#SBATCH --job-name=prepare_dataset         # nom du job
+#SBATCH --job-name=gpu_mono_pix2pix          # nom du job
 # Il est possible d'utiliser une autre partition que celle par défaut
 # en activant l'une des 5 directives suivantes :
 #SBATCH -C v100-16g                 # decommenter pour reserver uniquement des GPU V100 16 Go
@@ -19,10 +19,12 @@
 # /!\ Attention, "multithread" fait reference à l'hyperthreading dans la terminologie Slurm
 #SBATCH --hint=nomultithread         # hyperthreading desactive
 #SBATCH --time=20:00:00              # temps maximum d'execution demande (HH:MM:SS)
-#SBATCH --output=gpu_mono%j.out      # nom du fichier de sortie
-#SBATCH --error=gpu_mono%j.err       # nom du fichier d'erreur (ici commun avec la sortie)
+#SBATCH --output=jz/pix2pix_v100_%j.out      # nom du fichier de sortie
+#SBATCH --error=jz/pix2pix_v100_%j.err       # nom du fichier d'erreur (ici commun avec la sortie)
 #SBATCH --account=abj@v100
- 
+#SBATCH --mail-user=nicolas.gonthier@ign.fr
+#SBATCH --mail-type=END,FAIL
+
 # Nettoyage des modules charges en interactif et herites par defaut
 module purge
  
@@ -31,11 +33,12 @@ module purge
 #module load cpuarch/amd
  
 # Chargement des modules
-module load pytorch-gpu/py3/1.7.1
+module load pytorch-gpu/py3/2.0.1 # for the required libs
  
 # Echo des commandes lancees
 set -x
  
 # Pour la partition "gpu_p5", le code doit etre compile avec les modules compatibles
 # Execution du code
-python prepare_flair_data.py
+# python train.py --dataroot /lustre/fsn1/projects/rech/abj/ujq24es/dataset/PixtoPix_FLAIR --name flair_pix2pix --model pix2pix --direction AtoB --display_id -1 --dataset_mode aligned --n_epochs 1 --n_epochs_decay 1 --verbose --batch_size 32
+python train.py --dataroot /lustre/fsn1/projects/rech/abj/ujq24es/dataset/PixtoPix_FLAIR --name flair_pix2pix --model pix2pix --direction AtoB --display_id -1 --dataset_mode aligned --batch_size 32

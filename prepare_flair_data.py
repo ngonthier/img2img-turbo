@@ -8,6 +8,7 @@ import pandas as pd
 from multiprocessing import Pool
 import ntpath
 import json
+from osgeo import gdal
 
 LUT = [
     {"color": "#db0e9a", "class": "building"},
