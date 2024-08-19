@@ -10,20 +10,6 @@ from multiprocessing import Pool
 import ntpath
 import json
 
-def convert_prompt_file(path_prompt='OCS_Metadata.pkl'):
-    """ Convert Prompt file for Pix2Pix Turbo
-    """
-    with open(path_prompt, 'rb') as f:
-        df = pickle.load(f)
-    print(df.head(5))
-    prompt_e = df['prompt_end']
-
-
-    train_prompt_file = "train_prompts.json"
-    test_prompt_file = "test_prompts.json"
-
-    return(0)
-
 LUT = [
     {"color": "#db0e9a", "class": "building"},
     {"color": "#938e7b", "class": "pervious surface"},
@@ -230,8 +216,7 @@ def convert_dataset_pix2pix_turbo_format(path_prompt='OCS_Metadata.pkl',
 
 
 if __name__ == "__main__":
-    #/lustre/fsn1/projects/rech/abj/ujq24es/dataset/FLAIR-INC/
-    convert_dataset_pix2pix_turbo_format(path_prompt='OCS_Metadata.pkl',
+    convert_dataset_pix2pix_turbo_format(path_prompt='/lustre/fsn1/projects/rech/abj/ujq24es/dataset/FLAIR-INC/OCS_Metadata.pkl',
                                    path_dataset='/lustre/fsn1/projects/rech/abj/ujq24es/dataset/dp014_V1-2_FLAIR19_RVBIE',
                                    output_path='/lustre/fsn1/projects/rech/abj/ujq24es/dataset/PixtoPixTurbo_FLAIR',max_number_img=10,
                                    path_csv_files='/lustre/fsn1/projects/rech/abj/ujq24es/dataset/FLAIR-INC')
