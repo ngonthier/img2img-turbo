@@ -4,7 +4,6 @@ import glob
 import pathlib
 from PIL import Image
 import numpy as np
-from osgeo import gdal
 from tqdm import tqdm
 import pandas as pd
 from multiprocessing import Pool
@@ -132,8 +131,8 @@ def convert_dataset_pix2pix_turbo_format(path_prompt='OCS_Metadata.pkl',
     if not no_multiprocessing:
         pool=Pool()
 
-    with open(path_prompt, 'rb') as f:
-        df = pickle.load(f)
+    df = pd.read_pickle(path_prompt).fillna("")
+    PROMPTS_START = ["aerial view of ", "top view of ", "satellite view of "]
 
     train_prompt_file = "train_prompts.json"
     test_prompt_file = "test_prompts.json"
@@ -180,16 +179,19 @@ def convert_dataset_pix2pix_turbo_format(path_prompt='OCS_Metadata.pkl',
         img_with_png = img_short + '.png'
 
         #number = filename_img.split('_')[1]
+        # Need to pick up one random 
         if img_short in list_test_img: 
             print('test image : ',img)
             number_test_img += 1 
             folder_A = path_test_A
             folder_B = path_test_B
-            test_prompt[img_with_png] = df[df.index==img_with_ext]['prompt_end'].values[0]
+            prompt = PROMPTS_START[0] + df[df.index==img_with_ext]['prompt_end'].values[0] + ", high resolution, highly detailed"
+            test_prompt[img_with_png] = prompt
         else:
             folder_A = path_train_A
             folder_B = path_train_B
-            train_prompt[img_with_png] = df[df.index==img_with_ext]['prompt_end'].values[0]
+            prompt = PROMPTS_START[np.random.randint(0,2)] + df[df.index==img_with_ext]['prompt_end'].values[0] + ", high resolution, highly detailed"
+            train_prompt[img_with_png] = prompt
 
 
         base_dir_A = os.path.join(output_path,folder_A)
@@ -228,7 +230,8 @@ def convert_dataset_pix2pix_turbo_format(path_prompt='OCS_Metadata.pkl',
 
 
 if __name__ == "__main__":
-    convert_dataset_pix2pix_turbo_format(path_prompt='/lustre/fsn1/projects/rech/abj/ujq24es/dataset/FLAIR-INC/OCS_Metadata.pkl',
+    #/lustre/fsn1/projects/rech/abj/ujq24es/dataset/FLAIR-INC/
+    convert_dataset_pix2pix_turbo_format(path_prompt='OCS_Metadata.pkl',
                                    path_dataset='/lustre/fsn1/projects/rech/abj/ujq24es/dataset/dp014_V1-2_FLAIR19_RVBIE',
                                    output_path='/lustre/fsn1/projects/rech/abj/ujq24es/dataset/PixtoPixTurbo_FLAIR',max_number_img=10,
                                    path_csv_files='/lustre/fsn1/projects/rech/abj/ujq24es/dataset/FLAIR-INC')
