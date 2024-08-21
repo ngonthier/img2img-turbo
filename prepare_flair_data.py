@@ -204,6 +204,10 @@ def convert_dataset_pix2pix_turbo_format(path_prompt='OCS_Metadata.pkl',
             base_dir_B_old = os.path.join(dataset_pix2pix_path,folder_B_old)
             mask_out_old = f"{base_dir_A_old}/{filename_img}.png"
             image_out_old = f"{base_dir_B_old}/{filename_img}.png"
+
+            print('mask_out_old, mask_out',mask_out_old, mask_out)
+            print('image_out_old, image_out',image_out_old, image_out)
+            return(0)
             if not no_multiprocessing:
                 pool.apply_async(copy.deepcopy, args=(mask_out_old, mask_out))
                 pool.apply_async(copy.deepcopy, args=(image_out_old, image_out))
@@ -240,5 +244,5 @@ if __name__ == "__main__":
                                    path_dataset='/lustre/fsn1/projects/rech/abj/ujq24es/dataset/dp014_V1-2_FLAIR19_RVBIE',
                                    output_path='/lustre/fsn1/projects/rech/abj/ujq24es/dataset/PixtoPixTurbo_FLAIR',max_number_img=2000000,
                                    path_csv_files='/lustre/fsn1/projects/rech/abj/ujq24es/dataset/FLAIR-INC',
-                                   deepcopy=True,
+                                   deepcopy=True,no_multiprocessing=True,
                                    dataset_pix2pix_path='/lustre/fsn1/projects/rech/abj/ujq24es/dataset/PixtoPix_FLAIR')
