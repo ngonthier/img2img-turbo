@@ -8,7 +8,7 @@ import pandas as pd
 from multiprocessing import Pool
 import ntpath
 import json
-import copy
+import shutil
 
 LUT = [
     {"color": "#db0e9a", "class": "building"},
@@ -205,15 +205,12 @@ def convert_dataset_pix2pix_turbo_format(path_prompt='OCS_Metadata.pkl',
             mask_out_old = f"{base_dir_A_old}/{filename_img}.png"
             image_out_old = f"{base_dir_B_old}/{filename_img}.png"
 
-            print('mask_out_old, mask_out',mask_out_old, mask_out)
-            print('image_out_old, image_out',image_out_old, image_out)
-            return(0)
             if not no_multiprocessing:
-                pool.apply_async(copy.deepcopy, args=(mask_out_old, mask_out))
-                pool.apply_async(copy.deepcopy, args=(image_out_old, image_out))
+                pool.apply_async(shutil.copy, args=(mask_out_old, mask_out))
+                pool.apply_async(shutil.copy, args=(image_out_old, image_out))
             else:
-                copy.deepcopy(image_out_old, image_out)
-                copy.deepcopy(mask_out_old, mask_out)
+                shutil.copy(image_out_old, image_out)
+                shutil.copy(mask_out_old, mask_out)
         else:
 
             if not no_multiprocessing:
@@ -244,5 +241,5 @@ if __name__ == "__main__":
                                    path_dataset='/lustre/fsn1/projects/rech/abj/ujq24es/dataset/dp014_V1-2_FLAIR19_RVBIE',
                                    output_path='/lustre/fsn1/projects/rech/abj/ujq24es/dataset/PixtoPixTurbo_FLAIR',max_number_img=2000000,
                                    path_csv_files='/lustre/fsn1/projects/rech/abj/ujq24es/dataset/FLAIR-INC',
-                                   deepcopy=True,no_multiprocessing=True,
+                                   deepcopy=True,no_multiprocessing=False,
                                    dataset_pix2pix_path='/lustre/fsn1/projects/rech/abj/ujq24es/dataset/PixtoPix_FLAIR')
