@@ -1,5 +1,5 @@
 #!/bin/bash
-#SBATCH --job-name=gpu_mono_pix2pix          # nom du job
+#SBATCH --job-name=turbo_pix2pix          # nom du job
 # Il est possible d'utiliser une autre partition que celle par défaut
 # en activant l'une des 5 directives suivantes :
 #SBATCH -C v100-16g                 # decommenter pour reserver uniquement des GPU V100 16 Go
@@ -40,6 +40,7 @@ set -x
  
 # Pour la partition "gpu_p5", le code doit etre compile avec les modules compatibles
 # Execution du code
+#--report_to "tensorboard"
 accelerate config
 accelerate launch src/train_pix2pix_turbo.py \
     --pretrained_model_name_or_path="stabilityai/sd-turbo" \
@@ -49,4 +50,4 @@ accelerate launch src/train_pix2pix_turbo.py \
     --train_batch_size=2 \
     --enable_xformers_memory_efficient_attention --viz_freq 25 \
     --track_val_fid \
-    --report_to "tensorboard" --tracker_project_name "pix2pix_turbo_flair"
+    --report_to "wandb" --tracker_project_name "pix2pix_turbo_flair"

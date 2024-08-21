@@ -13,6 +13,10 @@ sys.path.append(p)
 from model import make_1step_sched, my_vae_encoder_fwd, my_vae_decoder_fwd
 
 
+import os
+os.environ['HF_HOME'] = '/lustre/fsn1/projects/rech/abj/ujq24es/huggingface'
+os.environ['HF_HUB_CACHE '] = '/lustre/fsn1/projects/rech/abj/ujq24es/huggingface/hub'
+
 class TwinConv(torch.nn.Module):
     def __init__(self, convin_pretrained, convin_curr):
         super(TwinConv, self).__init__()
