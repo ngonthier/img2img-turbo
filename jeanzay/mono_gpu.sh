@@ -49,4 +49,4 @@ accelerate launch src/train_pix2pix_turbo.py \
     --train_batch_size=2 \
     --enable_xformers_memory_efficient_attention --viz_freq 25 \
     --track_val_fid \
-    --report_to "wandb" --tracker_project_name "pix2pix_turbo_flair"
+    --report_to "tensorboard" --tracker_project_name "pix2pix_turbo_flair"
