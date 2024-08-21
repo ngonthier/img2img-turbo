@@ -139,7 +139,7 @@ def convert_dataset_pix2pix_turbo_format(path_prompt='OCS_Metadata.pkl',
     test_set['img'] = test_set['img'].apply(lambda x: x.split('/')[-1])
     test_set['img'] = test_set['img'].apply(lambda x: x.split('.')[0])
     list_test_img = test_set['img'].to_list()
-    print('list_test_img',list_test_img)
+    #print('list_test_img',list_test_img)
 
 
     pathlib.Path(os.path.join(output_path,path_train_A)).mkdir(parents=True, exist_ok=True)
@@ -168,7 +168,7 @@ def convert_dataset_pix2pix_turbo_format(path_prompt='OCS_Metadata.pkl',
         #number = filename_img.split('_')[1]
         # Need to pick up one random 
         if img_short in list_test_img: 
-            print('test image : ',img)
+            #print('test image : ',img)
             number_test_img += 1 
             folder_A = path_test_A
             folder_B = path_test_B
@@ -204,9 +204,12 @@ def convert_dataset_pix2pix_turbo_format(path_prompt='OCS_Metadata.pkl',
             base_dir_B_old = os.path.join(dataset_pix2pix_path,folder_B_old)
             mask_out_old = f"{base_dir_A_old}/{filename_img}.png"
             image_out_old = f"{base_dir_B_old}/{filename_img}.png"
-            
-            pool.apply_async(copy.deepcopy, args=(mask_out_old, mask_out))
-            pool.apply_async(copy.deepcopy, args=(image_out_old, image_out))
+            if not no_multiprocessing:
+                pool.apply_async(copy.deepcopy, args=(mask_out_old, mask_out))
+                pool.apply_async(copy.deepcopy, args=(image_out_old, image_out))
+            else:
+                copy.deepcopy(image_out_old, image_out)
+                copy.deepcopy(mask_out_old, mask_out)
         else:
 
             if not no_multiprocessing:
