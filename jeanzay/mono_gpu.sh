@@ -39,7 +39,7 @@ module load pytorch-gpu/py3/2.0.1 # for the required libs
 set -x
  
 export HF_HOME = '/lustre/fsn1/projects/rech/abj/ujq24es/huggingface'
-
+export WANDB_MODE="offline"
 # Pour la partition "gpu_p5", le code doit etre compile avec les modules compatibles
 # Execution du code
 #--report_to "tensorboard"
