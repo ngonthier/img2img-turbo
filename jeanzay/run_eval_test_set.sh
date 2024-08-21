@@ -40,13 +40,7 @@ set -x
  
 # Pour la partition "gpu_p5", le code doit etre compile avec les modules compatibles
 # Execution du code
-accelerate config
-accelerate launch src/train_pix2pix_turbo.py \
-    --pretrained_model_name_or_path="stabilityai/sd-turbo" \
-    --output_dir="output/pix2pix_turbo/flair" \
-    --dataset_folder="/lustre/fsn1/projects/rech/abj/ujq24es/dataset/PixtoPixTurbo_FLAIR" \
-    --resolution=512 \
-    --train_batch_size=2 \
-    --enable_xformers_memory_efficient_attention --viz_freq 25 \
-    --track_val_fid \
-    --report_to "wandb" --tracker_project_name "pix2pix_turbo_flair"
+python src/inference_paired.py --model_path "output/pix2pix_turbo/fill50k/checkpoints/model_6001.pkl" \
+    --input_image "data/my_fill50k/test_A/40000.png" \
+    --prompt "violet circle with orange background" \
+    --output_dir "outputs"
