@@ -43,6 +43,7 @@ export WANDB_MODE="offline"
 # Pour la partition "gpu_p5", le code doit etre compile avec les modules compatibles
 # Execution du code
 #--report_to "tensorboard"
+#    --track_val_fid \
 accelerate config
 accelerate launch src/train_pix2pix_turbo.py \
     --pretrained_model_name_or_path="stabilityai/sd-turbo" \
@@ -51,5 +52,4 @@ accelerate launch src/train_pix2pix_turbo.py \
     --resolution=512 \
     --train_batch_size=2 \
     --enable_xformers_memory_efficient_attention --viz_freq 25 \
-    --track_val_fid \
     --report_to "wandb" --tracker_project_name "pix2pix_turbo_flair"
