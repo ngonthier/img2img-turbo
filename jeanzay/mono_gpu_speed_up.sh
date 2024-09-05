@@ -58,4 +58,4 @@ accelerate launch src/train_pix2pix_turbo.py \
     --dataloader_num_workers 8 \
     --checkpointing_steps 2000 \
     --report_to "wandb" --tracker_project_name "pix2pix_turbo_flair_v100_bs4" \
-    --mixed_precision "bf16" --allow_tf32
+    --allow_tf32
