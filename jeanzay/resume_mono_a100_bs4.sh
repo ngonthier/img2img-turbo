@@ -46,14 +46,16 @@ export WANDB_MODE="offline"
 #    --track_val_fid \
 accelerate config
 accelerate launch src/train_pix2pix_turbo.py \
-    --pretrained_model_name_or_path="stabilityai/sd-turbo" \
-    --output_dir="output/pix2pix_turbo/flair" \
+    --pretrained_model_name_or_path="/lustre/fswork/projects/rech/abj/ujq24es/img2img-turbo/output/pix2pix_turbo/flair_bs4/checkpoints/model_14001.pkl" \
+    --output_dir="output/pix2pix_turbo/flair_bs4_r1" \
     --dataset_folder="/lustre/fsn1/projects/rech/abj/ujq24es/dataset/PixtoPixTurbo_FLAIR" \
     --resolution=512 \
-    --train_batch_size=2 \
-    --enable_xformers_memory_efficient_attention --viz_freq 200 \
-    --num_training_epochs 10 --max_train_steps 10000 \
+    --train_batch_size=4 \
+    --enable_xformers_memory_efficient_attention --viz_freq 500 \
+    --num_samples_eval 50 \
+    --num_training_epochs 2 --max_train_steps 10000 \
     --dataloader_num_workers 8 \
-    --report_to "wandb" --tracker_project_name "pix2pix_turbo_flair_a100"
-## 20000it en 20h avec cela 
-## 20000it en 20h avec cela 
+    --checkpointing_steps 1000 \
+    --report_to "wandb" --tracker_project_name "pix2pix_turbo_flair_a100_bs4_r1"
+
+## "/lustre/fswork/projects/rech/abj/ujq24es/img2img-turbo/output/pix2pix_turbo/flair_bs4/checkpoints/model_14001.pkl" 

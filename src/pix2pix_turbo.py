@@ -12,11 +12,6 @@ p = "src/"
 sys.path.append(p)
 from model import make_1step_sched, my_vae_encoder_fwd, my_vae_decoder_fwd
 
-
-import os
-os.environ['HF_HOME'] = '/lustre/fsn1/projects/rech/abj/ujq24es/huggingface'
-os.environ['HF_HUB_CACHE '] = '/lustre/fsn1/projects/rech/abj/ujq24es/huggingface/hub'
-
 class TwinConv(torch.nn.Module):
     def __init__(self, convin_pretrained, convin_curr):
         super(TwinConv, self).__init__()
@@ -117,7 +112,7 @@ class Pix2Pix_Turbo(torch.nn.Module):
                 _sd_unet[k] = sd["state_dict_unet"][k]
             unet.load_state_dict(_sd_unet)
 
-        elif pretrained_path is not None:
+        elif pretrained_path is not None: # for the LORA part use the pretrained one
             sd = torch.load(pretrained_path, map_location="cpu")
             unet_lora_config = LoraConfig(r=sd["rank_unet"], init_lora_weights="gaussian", target_modules=sd["unet_lora_target_modules"])
             vae_lora_config = LoraConfig(r=sd["rank_vae"], init_lora_weights="gaussian", target_modules=sd["vae_lora_target_modules"])
@@ -131,6 +126,24 @@ class Pix2Pix_Turbo(torch.nn.Module):
             for k in sd["state_dict_unet"]:
                 _sd_unet[k] = sd["state_dict_unet"][k]
             unet.load_state_dict(_sd_unet)
+        
+            # Added tlp
+            target_modules_vae = ["conv1", "conv2", "conv_in", "conv_shortcut", "conv", "conv_out",
+                "skip_conv_1", "skip_conv_2", "skip_conv_3", "skip_conv_4",
+               "to_k", "to_q", "to_v", "to_out.0",
+            ]
+            target_modules_unet = [
+                "to_k", "to_q", "to_v", "to_out.0", "conv", "conv1", "conv2", "conv_shortcut", "conv_out",
+                "proj_in", "proj_out", "ff.net.2", "ff.net.0.proj"
+            ]
+            unet_lora_config = LoraConfig(r=lora_rank_unet, init_lora_weights="gaussian",
+                target_modules=target_modules_unet
+            )
+            self.lora_rank_unet = lora_rank_unet
+            self.lora_rank_vae = lora_rank_vae
+            self.target_modules_vae = target_modules_vae
+            self.target_modules_unet = target_modules_unet
+
 
         elif pretrained_name is None and pretrained_path is None:
             print("Initializing model with random weights")

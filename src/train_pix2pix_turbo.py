@@ -45,9 +45,14 @@ def main(args):
         os.makedirs(os.path.join(args.output_dir, "checkpoints"), exist_ok=True)
         os.makedirs(os.path.join(args.output_dir, "eval"), exist_ok=True)
 
-    if args.pretrained_model_name_or_path == "stabilityai/sd-turbo":
-        net_pix2pix = Pix2Pix_Turbo(lora_rank_unet=args.lora_rank_unet, lora_rank_vae=args.lora_rank_vae)
-        net_pix2pix.set_train()
+    if not (args.pretrained_model_name_or_path is None):
+        if args.pretrained_model_name_or_path == "stabilityai/sd-turbo":
+            net_pix2pix = Pix2Pix_Turbo(lora_rank_unet=args.lora_rank_unet, lora_rank_vae=args.lora_rank_vae)
+            net_pix2pix.set_train()
+        if args.pretrained_model_name_or_path != "stabilityai/sd-turbo":
+            print("checkpoint to trainpix2pix_turbo")
+            net_pix2pix = Pix2Pix_Turbo(pretrained_path=args.pretrained_model_name_or_path, lora_rank_unet=args.lora_rank_unet, lora_rank_vae=args.lora_rank_vae)
+            net_pix2pix.set_train()
 
     if args.enable_xformers_memory_efficient_attention:
         if is_xformers_available():

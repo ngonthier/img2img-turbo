@@ -40,7 +40,7 @@ def parse_args_paired_training(input_args=None):
     parser.add_argument("--tracker_project_name", type=str, default="train_pix2pix_turbo", help="The name of the wandb project to log to.")
 
     # details about the model architecture
-    parser.add_argument("--pretrained_model_name_or_path")
+    parser.add_argument("--pretrained_model_name_or_path", default=None)
     parser.add_argument("--revision", type=str, default=None,)
     parser.add_argument("--variant", type=str, default=None,)
     parser.add_argument("--tokenizer_name", type=str, default=None)
