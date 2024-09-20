@@ -46,8 +46,8 @@ export WANDB_MODE="offline"
 #    --track_val_fid \
 accelerate config
 accelerate launch src/train_pix2pix_turbo.py \
-    --pretrained_model_name_or_path="/lustre/fswork/projects/rech/abj/ujq24es/img2img-turbo/output/pix2pix_turbo/flair_bs4_r3/checkpoints/model_14001.pkl" \
-    --output_dir="output/pix2pix_turbo/flair_bs4_r4" \
+    --pretrained_model_name_or_path="/lustre/fswork/projects/rech/abj/ujq24es/img2img-turbo/output/pix2pix_turbo/flair_bs4_r4/checkpoints/model_14001.pkl" \
+    --output_dir="output/pix2pix_turbo/flair_bs4_r5" \
     --dataset_folder="/lustre/fsn1/projects/rech/abj/ujq24es/dataset/PixtoPixTurbo_FLAIR" \
     --resolution=512 \
     --train_batch_size=4 \
@@ -62,3 +62,4 @@ accelerate launch src/train_pix2pix_turbo.py \
 ## "/lustre/fswork/projects/rech/abj/ujq24es/img2img-turbo/output/pix2pix_turbo/flair_bs4_r1/checkpoints/model_14001.pkl" # 28000 iter
 ## "/lustre/fswork/projects/rech/abj/ujq24es/img2img-turbo/output/pix2pix_turbo/flair_bs4_r2/checkpoints/model_14001.pkl" # 42000 iter
 ## "/lustre/fswork/projects/rech/abj/ujq24es/img2img-turbo/output/pix2pix_turbo/flair_bs4_r3/checkpoints/model_14001.pkl" # 56000 iter
+## "/lustre/fswork/projects/rech/abj/ujq24es/img2img-turbo/output/pix2pix_turbo/flair_bs4_r4/checkpoints/model_14001.pkl" # 68000 iter
