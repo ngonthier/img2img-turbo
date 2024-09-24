@@ -30,17 +30,15 @@ module purge
  
 # Decommenter la commande module suivante si vous utilisez la partition "gpu_p5"
 # pour avoir acces aux modules compatibles avec cette partition
-#module load cpuarch/amd
+module load cpuarch/amd
  
 # Chargement des modules
-module load pytorch-gpu/py3/2.0.1 # for the required libs
+module load pytorch-gpu/py3/2.0.1
  
 # Echo des commandes lancees
 set -x
  
 # Pour la partition "gpu_p5", le code doit etre compile avec les modules compatibles
 # Execution du code
-python src/inference_paired.py --model_path "output/pix2pix_turbo/fill50k/checkpoints/model_6001.pkl" \
-    --input_image "data/my_fill50k/test_A/40000.png" \
-    --prompt "violet circle with orange background" \
-    --output_dir "outputs"
+python src/eval_paired.py --model_path "/lustre/fswork/projects/rech/abj/ujq24es/img2img-turbo/output/pix2pix_turbo/flair_bs4_r5/checkpoints/model_14001.pkl" \
+    --model_name "flair_bs4_r5"
