@@ -58,7 +58,7 @@ def eval_pix2pix(method, path):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument('--path', type=str, required=True, help='path to the image folder',dataset_pix2pix_path='/lustre/fsn1/projects/rech/abj/ujq24es/dataset/PixtoPix_FLAIR')
+    parser.add_argument('--path', type=str, help='path to the image folder', default='/lustre/fsn1/projects/rech/abj/ujq24es/dataset/PixtoPix_FLAIR')
     parser.add_argument('--model_name', type=str, default='', help='name of the pretrained model to be used')
     parser.add_argument('--model_path', type=str, default='', help='path to a model state dict to be used')
     parser.add_argument('--output_dir', type=str, default='/lustre/fsn1/projects/rech/abj/ujq24es/pix2pix_output', help='the directory to save the output')
