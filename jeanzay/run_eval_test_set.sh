@@ -1,5 +1,5 @@
 #!/bin/bash
-#SBATCH --job-name=gpu_mono_pix2pix          # nom du job
+#SBATCH --job-name=eval          # nom du job
 # Il est possible d'utiliser une autre partition que celle par défaut
 # en activant l'une des 5 directives suivantes :
 #SBATCH -C v100-16g                 # decommenter pour reserver uniquement des GPU V100 16 Go

@@ -59,12 +59,11 @@ def eval_pix2pix(method, path):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument('--path', type=str, required=True, help='path to the image folder',dataset_pix2pix_path='/lustre/fsn1/projects/rech/abj/ujq24es/dataset/PixtoPix_FLAIR')
-    parser.add_argument('--prompt', type=str, required=True, help='the prompt to be used')
     parser.add_argument('--model_name', type=str, default='', help='name of the pretrained model to be used')
     parser.add_argument('--model_path', type=str, default='', help='path to a model state dict to be used')
     parser.add_argument('--output_dir', type=str, default='/lustre/fsn1/projects/rech/abj/ujq24es/pix2pix_output', help='the directory to save the output')
     parser.add_argument('--seed', type=int, default=42, help='Random seed to be used')
-    parser.add_argument('--method', type=str, default=42, default='pix2pix_turbo', help='Random seed to be used')
+    parser.add_argument('--method', type=str, default='pix2pix_turbo', help='Random seed to be used')
     args = parser.parse_args()
 
     # only one of model_name and model_path should be provided
