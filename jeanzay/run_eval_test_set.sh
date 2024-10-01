@@ -2,10 +2,10 @@
 #SBATCH --job-name=eval          # nom du job
 # Il est possible d'utiliser une autre partition que celle par défaut
 # en activant l'une des 5 directives suivantes :
-#SBATCH -C v100-16g                 # decommenter pour reserver uniquement des GPU V100 16 Go
+##SBATCH -C v100-16g                 # decommenter pour reserver uniquement des GPU V100 16 Go
 ##SBATCH -C v100-32g                 # decommenter pour reserver uniquement des GPU V100 32 Go
 ##SBATCH --partition=gpu_p2          # decommenter pour la partition gpu_p2 (GPU V100 32 Go)
-##SBATCH -C a100                     # decommenter pour la partition gpu_p5 (GPU A100 80 Go)
+#SBATCH -C a100                     # decommenter pour la partition gpu_p5 (GPU A100 80 Go)
 # Ici, reservation de 10 CPU (pour 1 tache) et d'un GPU sur un seul noeud :
 #SBATCH --nodes=1                    # on demande un noeud
 #SBATCH --ntasks-per-node=1          # avec une tache par noeud (= nombre de GPU ici)
@@ -21,7 +21,7 @@
 #SBATCH --time=20:00:00              # temps maximum d'execution demande (HH:MM:SS)
 #SBATCH --output=jz/pix2pix_v100_%j.out      # nom du fichier de sortie
 #SBATCH --error=jz/pix2pix_v100_%j.err       # nom du fichier d'erreur (ici commun avec la sortie)
-#SBATCH --account=abj@v100
+#SBATCH --account=abj@a100
 #SBATCH --mail-user=nicolas.gonthier@ign.fr
 #SBATCH --mail-type=END,FAIL
 
@@ -34,6 +34,8 @@ module load cpuarch/amd
  
 # Chargement des modules
 module load pytorch-gpu/py3/2.0.1
+
+export HF_HOME='/lustre/fsn1/projects/rech/abj/ujq24es/huggingface'
  
 # Echo des commandes lancees
 set -x
