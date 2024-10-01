@@ -89,7 +89,7 @@ if __name__ == "__main__":
     list_test_img = test_set['img'].to_list()
 
     with open(os.path.join(output_path,test_prompt_file), 'r') as f:
-        test_prompt = json.loads(f)
+        test_prompt = json.load(f)
     mask_tif = glob.glob(os.path.join(path_test_A,"*.tif"))
     aerial_tif = glob.glob(os.path.join(path_test_B,"*.tif"))
 
