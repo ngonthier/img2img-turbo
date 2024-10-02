@@ -12,7 +12,7 @@ import ntpath
 import pathlib
 import shutil
 import torch_fidelity
-import tqdm
+from tqdm import tqdm
 import pandas as pd
 
 def path_leaf(path):
