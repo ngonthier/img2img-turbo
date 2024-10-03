@@ -61,7 +61,7 @@ if __name__ == "__main__":
     parser.add_argument('--path', type=str, help='path to the image folder', default='/lustre/fsn1/projects/rech/abj/ujq24es/dataset/PixtoPixTurbo_FLAIR')
     parser.add_argument('--model_name', type=str, default='', help='name of the pretrained model to be used')
     parser.add_argument('--model_path', type=str, default='', help='path to a model state dict to be used')
-    parser.add_argument('--output_dir', type=str, default='/lustre/fsn1/projects/rech/abj/ujq24es/pix2pix_output', help='the directory to save the output')
+    parser.add_argument('--output_dir', type=str, default='/lustre/fsn1/projects/rech/abj/ujq24es/pix2pixTurbo_output', help='the directory to save the output')
     parser.add_argument('--seed', type=int, default=42, help='Random seed to be used')
     parser.add_argument('--method', type=str, default='pix2pix_turbo', help='Random seed to be used')
     args = parser.parse_args()
@@ -109,6 +109,7 @@ if __name__ == "__main__":
         #number = filename_img.split('_')[1]
         # Need to pick up one random 
         if img_short in list_test_img: 
+            print('img_short')
             number_image += 1
             img_with_png 
             prompt = test_prompt[img_with_png]
@@ -127,11 +128,15 @@ if __name__ == "__main__":
                 output_pil = transforms.ToPILImage()(output_image[0].cpu() * 0.5 + 0.5)
 
             # save the output image 
-            output_pil.save(os.path.join(args.output_dir,'fakes', bname))
+            fake_image = os.path.join(args.output_dir,'fakes', bname)
+            output_pil.save(fake_image)
+            print("save faek to :",fake_image)
 
             dst =  os.path.join(os.path.join(args.output_dir,'reals'),os.path.basename(img_with_png))
+            print('saving',filename_img,'to',dst)
             shutil.copyfile(filename_img, dst) # src, dst
 
-    eval_pix2pix(args.method, args.output_dir)
+    print('==',number_image,'test images')
+    eval_pix2pix(method=args.method, path=args.output_dir)
 
             
