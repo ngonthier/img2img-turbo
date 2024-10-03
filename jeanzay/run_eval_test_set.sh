@@ -19,8 +19,8 @@
 # /!\ Attention, "multithread" fait reference à l'hyperthreading dans la terminologie Slurm
 #SBATCH --hint=nomultithread         # hyperthreading desactive
 #SBATCH --time=10:00:00              # temps maximum d'execution demande (HH:MM:SS)
-#SBATCH --output=jz/pix2pix_v100_%j.out      # nom du fichier de sortie
-#SBATCH --error=jz/pix2pix_v100_%j.err       # nom du fichier d'erreur (ici commun avec la sortie)
+#SBATCH --output=jz/eval_%j.out      # nom du fichier de sortie
+#SBATCH --error=jz/eval_%j.err       # nom du fichier d'erreur (ici commun avec la sortie)
 #SBATCH --account=abj@a100
 #SBATCH --mail-user=nicolas.gonthier@ign.fr
 #SBATCH --mail-type=END,FAIL
