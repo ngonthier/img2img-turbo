@@ -136,8 +136,8 @@ if __name__ == "__main__":
             print("save faek to :",fake_image)
 
             dst =  os.path.join(os.path.join(args.output_dir,'reals'),os.path.basename(img_with_png))
-            print('saving',filename_img,'to',dst)
-            shutil.copyfile(filename_img, dst) # src, dst
+            print('saving',img,'to',dst)
+            shutil.copyfile(img, dst) # src, dst
 
     print('==',number_image,'test images')
     eval_pix2pix(method=args.method, path=args.output_dir)
