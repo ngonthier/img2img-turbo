@@ -97,11 +97,15 @@ if __name__ == "__main__":
     pathlib.Path(os.path.join(args.output_dir,'fakes')).mkdir(parents=True, exist_ok=True)
     max_number_img = 10
     number_image = 0
+
+    print('list_test_img',list_test_img)
+
     for img, msk in tqdm(zip(aerial_tif, mask_tif)):
         filename_img = os.path.basename(img).split('.')[0]
         img_with_ext = path_leaf(img)
         img_short = img_with_ext.split('.')[0]
         img_with_png = img_short + '.png'
+        print('img_short',img_short)
 
         if number_image > max_number_img:
             break
@@ -109,7 +113,7 @@ if __name__ == "__main__":
         #number = filename_img.split('_')[1]
         # Need to pick up one random 
         if img_short in list_test_img: 
-            print('img_short')
+            print(img_short,'in test')
             number_image += 1
             img_with_png 
             prompt = test_prompt[img_with_png]
