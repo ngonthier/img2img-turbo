@@ -122,7 +122,7 @@ if __name__ == "__main__":
             #new_width = input_image.width - input_image.width % 8
             #new_height = input_image.height - input_image.height % 8
             #input_image = input_image.resize((new_width, new_height), Image.LANCZOS)
-            bname = os.path.basename(input_image)
+            bname = os.path.basename(img_short)
 
             # translate the image
             with torch.no_grad():
