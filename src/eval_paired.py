@@ -115,14 +115,13 @@ if __name__ == "__main__":
         if img_short in list_test_img: 
             print(img_short,'in test')
             number_image += 1
-            img_with_png 
             prompt = test_prompt[img_with_png]
             # make sure that the input image is a multiple of 8
             input_image = Image.open(msk).convert('RGB')
             #new_width = input_image.width - input_image.width % 8
             #new_height = input_image.height - input_image.height % 8
             #input_image = input_image.resize((new_width, new_height), Image.LANCZOS)
-            bname = os.path.basename(img_short)
+            bname = os.path.basename(img_with_png)
 
             # translate the image
             with torch.no_grad():
