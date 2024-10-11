@@ -90,8 +90,8 @@ if __name__ == "__main__":
 
     with open(os.path.join(output_path,test_prompt_file), 'r') as f:
         test_prompt = json.load(f)
-    mask_tif = glob.glob(os.path.join(path_test_A,"*.tif"))
-    aerial_tif = glob.glob(os.path.join(path_test_B,"*.tif"))
+    mask_tif = glob.glob(os.path.join(path_test_A,"*.png"))
+    aerial_tif = glob.glob(os.path.join(path_test_B,"*.png"))
 
     pathlib.Path(os.path.join(args.output_dir,'reals')).mkdir(parents=True, exist_ok=True)
     pathlib.Path(os.path.join(args.output_dir,'fakes')).mkdir(parents=True, exist_ok=True)
