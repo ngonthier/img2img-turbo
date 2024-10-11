@@ -241,5 +241,5 @@ if __name__ == "__main__":
                                    path_dataset='/lustre/fsn1/projects/rech/abj/ujq24es/dataset/dp014_V1-2_FLAIR19_RVBIE',
                                    output_path='/lustre/fsn1/projects/rech/abj/ujq24es/dataset/PixtoPixTurbo_FLAIR',max_number_img=2000000,
                                    path_csv_files='/lustre/fsn1/projects/rech/abj/ujq24es/dataset/FLAIR-INC',
-                                   deepcopy=True,no_multiprocessing=False,
+                                   deepcopy=False,no_multiprocessing=False,
                                    dataset_pix2pix_path='/lustre/fsn1/projects/rech/abj/ujq24es/dataset/PixtoPix_FLAIR')
