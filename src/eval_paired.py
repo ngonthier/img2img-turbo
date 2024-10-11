@@ -122,12 +122,12 @@ if __name__ == "__main__":
             #new_width = input_image.width - input_image.width % 8
             #new_height = input_image.height - input_image.height % 8
             #input_image = input_image.resize((new_width, new_height), Image.LANCZOS)
-            bname = os.path.basename(args.input_image)
+            bname = os.path.basename(input_image)
 
             # translate the image
             with torch.no_grad():
                 c_t = F.to_tensor(input_image).unsqueeze(0).cuda()
-                output_image = model(c_t, args.prompt)
+                output_image = model(c_t, prompt)
 
                 output_pil = transforms.ToPILImage()(output_image[0].cpu() * 0.5 + 0.5)
 
